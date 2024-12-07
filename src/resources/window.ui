@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PomodoroWindow" parent="GtkApplicationWindow">
+    <property name="title" translatable="yes">Pomodoro Timer</property>
+    <child>
+        <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="spacing">12</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <child>
+                <object class="GtkLabel" id="title_label">
+                    <property name="label">Pomodoro Timer</property>
+                </object>
+            </child>
+            <child>
+                <object class="GtkLabel" id="timer_label">
+                    <property name="label">00</property>
+                    <style>
+                        <class name="timer-label"/>
+                    </style>
+                </object>
+            </child>
+            <child>
+                <object class="GtkButton" id="start_button">
+                    <signal name="clicked" handler="handle_start_click" swapped="true"/>
+                    <property name="label">Start</property>
+                </object>
+            </child>
+            <child>
+                <object class="GtkButton" id="stop_button">
+                    <property name="label">Start</property>
+                </object>
+            </child>
+        </object>
+    </child>
+  </template>
+</interface>
