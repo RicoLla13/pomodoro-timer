@@ -1,38 +1,35 @@
-mod pomodoro;
+use gtk::glib::application_name;
+use gtk::prelude::*;
+use gtk::{glib, Application, ApplicationWindow, Button};
 
-use std::io;
-use pomodoro::PomodoroTimer;
+const APP_ID: &str = "some.ricolla1.PomodoroTimer";
 
-fn main() {
-    println!("=== Welcome to Pomodoro timer! ===\n");
+fn main() -> glib::ExitCode {
+    let app = Application::builder().application_id(APP_ID).build();
 
-    let pomodoro_duration = get_input("Enter Pomodoro duration (in seconds): ");
-    let break_duration = get_input("Enter Break duration (in seconds): ");
-    let num_pomodoros = get_input("Enter the number of Pomodoros: ");
+    app.connect_activate(build_ui);
 
-    let timer = PomodoroTimer::new(pomodoro_duration, break_duration, num_pomodoros);
-
-    println!("Timer started for {} Pomodoros.", num_pomodoros);
-    timer.start();
+    app.run()
 }
 
-fn get_input(prompt: &str) -> u64 {
-    loop {
-        println!("{}", prompt);
+fn build_ui(app: &Application) {
+    let button = Button::builder()
+        .label("Press me!")
+        .margin_top(12)
+        .margin_bottom(12)
+        .margin_start(12)
+        .margin_end(12)
+        .build();
 
-        let mut input = String::new();
-        io::stdin()
-            .read_line(&mut input)
-            .expect("[*] Failed to read line!");
+    button.connect_clicked(|button| {
+        button.set_label("Hello World!");
+    });
 
-        let input: u64 = match input.trim().parse() {
-            Ok(num) => num,
-            Err(_) => {
-                println!("[*] Invalid input. Please enter value again");
-                continue;
-            }
-        };
+    let window = ApplicationWindow::builder()
+        .application(app)
+        .title("Pomodoro Timer")
+        .child(&button)
+        .build();
 
-        break input;
-    }
+    window.present();
 }
