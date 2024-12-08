@@ -1,8 +1,7 @@
 use glib::subclass::InitializingObject;
-use gtk::prelude::*;
+use gtk::{prelude::*, SpinButton};
 use gtk::subclass::prelude::*;
 use gtk::{glib, Button, Label, CompositeTemplate};
-use glib::clone;
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/org/gtk_rs/pomodoro/window.ui")]
@@ -15,6 +14,12 @@ pub struct Window {
     pub start_button: TemplateChild<Button>,
     #[template_child]
     pub stop_button: TemplateChild<Button>,
+    #[template_child]
+    pub pom_spin: TemplateChild<SpinButton>,
+    #[template_child]
+    pub break_spin: TemplateChild<SpinButton>,
+    #[template_child]
+    pub num_spin: TemplateChild<SpinButton>,
 }
 
 // The central trait for subclassing a GObject
