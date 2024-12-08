@@ -1,7 +1,12 @@
+use glib::clone;
 use glib::subclass::InitializingObject;
-use gtk::{prelude::*, SpinButton};
 use gtk::subclass::prelude::*;
-use gtk::{glib, Button, Label, CompositeTemplate};
+use gtk::{glib, Button, CompositeTemplate, Label};
+use gtk::{prelude::*, SpinButton};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+use crate::pomodoro::PomodoroTimer;
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/org/gtk_rs/pomodoro/window.ui")]
@@ -42,11 +47,14 @@ impl ObjectSubclass for Window {
 
 #[gtk::template_callbacks]
 impl Window {
-    // This is the updated callback where `self` is accessed directly to modify the template child
     #[template_callback]
     fn handle_start_click(&self, _button: &Button) {
-        // Access the `timer_label` and modify it
-        self.timer_label.set_label("Pomodoro started!");
+        let timer_label = self.timer_label.clone();
+        let title_label = self.title_label.clone();
+
+        let timer = Rc::new(RefCell::new(PomodoroTimer::new(5, 5, 2)));
+        
+        PomodoroTimer::start(timer, &timer_label, &title_label);
     }
 }
 

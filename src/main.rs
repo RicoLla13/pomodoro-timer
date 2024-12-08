@@ -1,4 +1,5 @@
 mod window;
+mod pomodoro;
 
 use gtk::prelude::*;
 use gtk::{gio, gdk, glib, Application, CssProvider};
